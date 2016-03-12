@@ -1,0 +1,6 @@
+
+# Ignore for emacs autosave file
+
+*~
+[#]*[#]
+.\#*
