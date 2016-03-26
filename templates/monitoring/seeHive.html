@@ -1,0 +1,94 @@
+{% extends 'TyBeeWeb/base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+<script src="{% static 'js/jquery-1.12.2.min.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.js' %}"></script
+><script src="{% static 'js/flot/jquery.flot.navigate.js' %}"></script>
+
+<style type="text/css">
+
+  .button {
+  position: absolute;
+  cursor: pointer;
+  }
+
+  div.button {
+  font-size: smaller;
+  color: #999;
+  background-color: #eee;
+  padding: 2px;
+  }
+  .message {
+  padding-left: 50px;
+  font-size: smaller;
+  }
+
+</style>
+{% endblock %}
+
+{% block navbar %}
+{% endblock %}
+
+{% block main %}
+
+
+<p>
+  {{debug}}
+  {% for graph in charts %}
+  <h4>Graphe du capteur "{{graph.name}}"</h4>
+
+  <div id="graph{{ graph.id }}" style="width:600px;height:400px"></div>
+  <script type="text/javascript">
+    $(document).ready(function(){    
+      var placeholder = $("#graph{{ graph.id }}")
+
+      var plot = $.plot(placeholder, {{ graph.datas }}, {{ graph.options }});
+    
+      placeholder.bind("plotpan", function (event, plot) {
+        var axes = plot.getAxes();
+          $(".message").html("Panning to x: "  + axes.xaxis.min.toFixed(2)
+          + " &ndash; " + axes.xaxis.max.toFixed(2)
+          + " and y: " + axes.yaxis.min.toFixed(2)
+          + " &ndash; " + axes.yaxis.max.toFixed(2));
+        });
+
+      placeholder.bind("plotzoom", function (event, plot) {
+        var axes = plot.getAxes();
+          $(".message").html("Zooming to x: "  + axes.xaxis.min.toFixed(2)
+          + " &ndash; " + axes.xaxis.max.toFixed(2)
+          + " and y: " + axes.yaxis.min.toFixed(2)
+          + " &ndash; " + axes.yaxis.max.toFixed(2));
+        });
+
+      // add zoom out button 
+      $("<div class='button' style='right:25px;top:20px'>zoom out</div>")
+        .appendTo(placeholder)
+        .click(function (event) {
+
+    event.preventDefault();
+        plot.zoomOut();
+      });
+
+      // and add panning buttons
+      function addArrow(src, right, top, offset) {
+        $("<img class='button' src='" + src + "' style='right:" + right + "px;top:" + top + "px'>")
+          .appendTo(placeholder)
+          .click(function (e) {
+            e.preventDefault();
+            plot.pan(offset);
+          });
+      }
+
+      addArrow("{% static 'img/arrow-left.gif' %}", 65, 60, { left: -100 });
+      addArrow("{% static 'img/arrow-up.gif' %}", 47,40, { up: 100 });
+      addArrow("{% static 'img/arrow-down.gif' %}", 47, 80, { up: -100 });
+      addArrow("{% static 'img/arrow-right.gif' %}", 30, 60, { left: 100 });
+    });
+  </script>
+  {% endfor %}
+</p>
+{% endblock %}
+
+{% block footer %}
+{% endblock %}
