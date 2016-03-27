@@ -3,8 +3,9 @@
 
 {% block head %}
 <script src="{% static 'js/jquery-1.12.2.min.js' %}"></script>
-<script src="{% static 'js/flot/jquery.flot.js' %}"></script
-><script src="{% static 'js/flot/jquery.flot.navigate.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.navigate.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.time.js' %}"></script>
 
 <style type="text/css">
 
@@ -33,17 +34,17 @@
 {% block main %}
 
 
-<p>
-  {{debug}}
+<div class="row">
   {% for graph in charts %}
-  <h4>Graphe du capteur "{{graph.name}}"</h4>
+  <div class="col-xs-5 col-xs-offset-1 ">
+  <h4 class="text-center">Graphe du capteur "{{graph.name}}"</h4>
 
-  <div id="graph{{ graph.id }}" style="width:600px;height:400px"></div>
+  <div id="graph{{ graph.id }}" style="width:500px;height:350px"></div>
   <script type="text/javascript">
     $(document).ready(function(){    
       var placeholder = $("#graph{{ graph.id }}")
 
-      var plot = $.plot(placeholder, {{ graph.datas }}, {{ graph.options }});
+      var plot = $.plot(placeholder, {{ graph.datas|safe }}, {{ graph.options|safe }});
     
       placeholder.bind("plotpan", function (event, plot) {
         var axes = plot.getAxes();
@@ -62,7 +63,7 @@
         });
 
       // add zoom out button 
-      $("<div class='button' style='right:25px;top:20px'>zoom out</div>")
+      $("<div class='button' style='right:32px;top:15px'>zoom out</div>")
         .appendTo(placeholder)
         .click(function (event) {
 
@@ -80,14 +81,15 @@
           });
       }
 
-      addArrow("{% static 'img/arrow-left.gif' %}", 65, 60, { left: -100 });
-      addArrow("{% static 'img/arrow-up.gif' %}", 47,40, { up: 100 });
-      addArrow("{% static 'img/arrow-down.gif' %}", 47, 80, { up: -100 });
-      addArrow("{% static 'img/arrow-right.gif' %}", 30, 60, { left: 100 });
+      addArrow("{% static 'img/arrow-left.gif' %}", 65, 40, { left: -100 })
+      addArrow("{% static 'img/arrow-right.gif' %}", 30, 40, { left: 100 });
     });
   </script>
+
+  </div>
   {% endfor %}
-</p>
+</div>
+
 {% endblock %}
 
 {% block footer %}
