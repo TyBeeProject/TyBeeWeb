@@ -1,0 +1,23 @@
+{% extends 'monitoring/flotBase.html' %}
+{% load staticfiles %}
+
+{% block menu_holder %}
+<h3 class="text-center"> Menu </h3>
+<ul>
+  <li><a href="{% url 'monitoring:seeHive' idHive=hive.id %}">Ruche "{{ hive.name }}"</a></li>
+  {% for captor in captors %}
+  <li><a href="{% url 'monitoring:seeCaptor' idHive=hive.id idCaptor=captor.id %}">Capteur "{{ captor.name }}"</a></li>
+  {% endfor %}
+</ul>
+{% endblock %}
+
+{% block monitoring_holder %}
+<h4 class="text-center">Graphe du capteur "{{graph.name}}"</h4>
+
+<div class="">
+  <div id="zoomableGraph{{ hive.id }}-{{ graph.id }}" style="width:100%;height:400px;"></div>
+  <script type="text/javascript">
+    $(document).ready(zoomablePlot("#zoomableGraph{{ hive.id }}-{{ graph.id }}", {{ graph.datas|safe}}, {{ graph.options|safe }}, "{% static 'img/arrow-left.gif' %}", "{% static 'img/arrow-right.gif' %}"));
+  </script>
+</div>
+{% endblock %}

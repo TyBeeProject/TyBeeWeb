@@ -1,0 +1,73 @@
+{% extends 'TyBeeWeb/base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+<script src="{% static 'js/jquery-1.12.2.min.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.time.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'js/plottingFun.js' %}"></script>
+{% endblock %}
+
+{% block navList %}
+<li>
+  <a class="page-scroll" href="#page-top">Ruche connectée</a>
+</li>
+{% for hive in hives %}
+<li>
+  <a class="page-scroll" href="#hive{{hive.name}}">{{hive.name}}</a>
+</li>
+{% endfor %}
+{% endblock %}
+
+{% block main %}
+<section id="intro" class="intro-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1>Qu'est-ce qu'une ruche connectée ?</h1>
+	<p>
+	  Une ruche connectée est un concept de ruche abritant des capteurs, reliés à un serveur permettant d'analyser et monitorer ce flux de données.<br/>C'est une manière pédagogique et ludique d'observer une ruche, mais aussi un outil intéressant pour analyser l'état de santé de la ruche.<br/><br/>
+	  Un capteur de poids par exemple permet de quantifier la quantité de miel présente dans la ruche au cours du temps, mais aussi d'intuiter le nombre d'abeilles à un instant précis dans la ruche.
+	</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% for hive in hives %}
+<section id="hive{{hive.name}}" class="about-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1><a href="{% url 'monitoring:seeHive' idHive=hive.id %}">{{hive.name}} : {{hive.shortDescription}}</a></h1>
+      </div>      
+    </div>
+    <div class="row" style="padding-top:20px;">
+      <div class="col-md-5">
+	{% if hive.photo %}
+	<img src="{{ hive.photo.url }}" alt="Ruche {{hive.name}}" style="height:200px;"/>
+	{% endif %}
+      </div>
+      <div class="col-md-6 col-md-offest-1">
+	<p>{{hive.description|safe}}</p>
+      </div>
+    </div>    
+    <div class="row" style="padding-top:20px;">
+      <!-- Captors -->
+      {% for graph in hive.graphs %}
+      <div class="col-md-4">
+	<h4 class="text-center">Capteur "{{ graph.name }}"</h4>
+	<div>
+	  <div id="graph{{hive.id}}-{{graph.id}}" style="width:100%;height:200px;"></div>
+	  <script type="text/javascript">
+	        $(document).ready(zoomablePlot("#graph{{ hive.id }}-{{ graph.id }}", {{ graph.datas|safe}}, {{ graph.options|safe }}, "{% static 'img/arrow-left.gif' %}", "{% static 'img/arrow-right.gif' %}"));
+	  </script>
+	</div>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}

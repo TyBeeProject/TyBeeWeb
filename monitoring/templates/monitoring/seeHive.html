@@ -1,96 +1,85 @@
-{% extends 'TyBeeWeb/base.html' %}
+{% extends 'monitoring/flotBase.html' %}
 {% load staticfiles %}
 
-{% block head %}
-<script src="{% static 'js/jquery-1.12.2.min.js' %}"></script>
-<script src="{% static 'js/flot/jquery.flot.js' %}"></script>
-<script src="{% static 'js/flot/jquery.flot.navigate.js' %}"></script>
-<script src="{% static 'js/flot/jquery.flot.time.js' %}"></script>
-
-<style type="text/css">
-
-  .button {
-  position: absolute;
-  cursor: pointer;
-  }
-
-  div.button {
-  font-size: smaller;
-  color: #999;
-  background-color: #eee;
-  padding: 2px;
-  }
-  .message {
-  padding-left: 50px;
-  font-size: smaller;
-  }
-
-</style>
+{% block navList %}
+<li>
+  <a class="page-scroll" href="{% url 'monitoring:seeHives' %}">Retour aux ruches</a>
+</li>
+<li>
+  <a class="page-scroll" href="#page-top">{{ hive.name }}</a>
+</li>
+{% for captor in hive.graphs %}
+<li>
+  <a class="page-scroll" href="#captor{{ captor.id }}">Capteur {{ captor.name }}</a>
+</li>
+{% endfor %}
 {% endblock %}
 
-{% block navbar %}
-{% endblock %}
 
 {% block main %}
-
-
-<div class="row">
-  {% for graph in charts %}
-  <div class="col-xs-5 col-xs-offset-1 ">
-  <h4 class="text-center">Graphe du capteur "{{graph.name}}"</h4>
-
-  <div id="graph{{ graph.id }}" style="width:500px;height:350px"></div>
-  <script type="text/javascript">
-    $(document).ready(function(){    
-      var placeholder = $("#graph{{ graph.id }}")
-
-      var plot = $.plot(placeholder, {{ graph.datas|safe }}, {{ graph.options|safe }});
-    
-      placeholder.bind("plotpan", function (event, plot) {
-        var axes = plot.getAxes();
-          $(".message").html("Panning to x: "  + axes.xaxis.min.toFixed(2)
-          + " &ndash; " + axes.xaxis.max.toFixed(2)
-          + " and y: " + axes.yaxis.min.toFixed(2)
-          + " &ndash; " + axes.yaxis.max.toFixed(2));
-        });
-
-      placeholder.bind("plotzoom", function (event, plot) {
-        var axes = plot.getAxes();
-          $(".message").html("Zooming to x: "  + axes.xaxis.min.toFixed(2)
-          + " &ndash; " + axes.xaxis.max.toFixed(2)
-          + " and y: " + axes.yaxis.min.toFixed(2)
-          + " &ndash; " + axes.yaxis.max.toFixed(2));
-        });
-
-      // add zoom out button 
-      $("<div class='button' style='right:32px;top:15px'>zoom out</div>")
-        .appendTo(placeholder)
-        .click(function (event) {
-
-    event.preventDefault();
-        plot.zoomOut();
-      });
-
-      // and add panning buttons
-      function addArrow(src, right, top, offset) {
-        $("<img class='button' src='" + src + "' style='right:" + right + "px;top:" + top + "px'>")
-          .appendTo(placeholder)
-          .click(function (e) {
-            e.preventDefault();
-            plot.pan(offset);
-          });
-      }
-
-      addArrow("{% static 'img/arrow-left.gif' %}", 65, 40, { left: -100 })
-      addArrow("{% static 'img/arrow-right.gif' %}", 30, 40, { left: 100 });
-    });
-  </script>
-
+<section id="intro" class="intro-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1>Ruche {{ hive.name }}</h1>
+	
+	<div class="row" style="padding-top:20px;">
+	  <div class="col-md-5">
+	    {% if hive.photo %}
+	    <img src="{{ hive.photo.url }}" alt="Ruche {{hive.name}}" style="height:200px;"/>
+	    {% endif %}
+	  </div>
+	  <div class="col-md-6 col-md-offest-1">
+	    <p>{{hive.description|safe}}</p>
+	  </div>
+	</div>    
+	
+      </div>
+    </div>
   </div>
+</section>
+{% for graph in hive.graphs %}
+<section id="captor{{ graph.id }}" class="about-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1>Capteur {{ graph.name }}</h1>
+	<div class="row">
+	  <div class="col-lg-10 col-lg-offset-1">
+	    <!-- Le graphe-->
+	    <div>
+	      <div id="zoomableGraph{{ hive.id }}-{{ graph.id }}" style="width:100%;height:300px;"></div>
+	      <script type="text/javascript">
+		$(document).ready(zoomablePlot("#zoomableGraph{{ hive.id }}-{{ graph.id }}", {{ graph.datas|safe}}, {{ graph.options|safe }}, "{% static 'img/arrow-left.gif' %}", "{% static 'img/arrow-right.gif' %}"));
+	      </script>
+	    </div>
+	    <p>
+	      Le capteur est un <strong>{{ graph.reference }}</strong> mesurant en <strong>{{ graph.unit }}</strong> avec une incertitude de <strong>± {{ graph.incertitude }}</strong>.
+	    </p>
+	  </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endfor %}
+{% endblock %}
+
+<!--{% block menu_holder %}
+<h3 class="text-center"> Menu </h3>
+<ul>
+  <li><a href="{% url 'monitoring:seeHive' idHive=hive.id %}">Ruche "{{ hive.name }}"</a></li>
+  {% for captor in captors %}
+  <li><a href="{% url 'monitoring:seeCaptor' idHive=hive.id idCaptor=captor.id %}">Capteur "{{ captor.name }}"</a></li>
   {% endfor %}
+</ul>
+{% endblock %}
+
+{% block monitoring_holder %}
+{% for graph in charts %}
+<div class="col-xs-5 col-xs-offset-1 ">
+  <a href="{% url 'monitoring:seeCaptor' idHive=hive.id idCaptor=graph.id %}"><h4 class="text-center">Graphe du capteur "{{graph.name}}"</h4></a>
+  
 </div>
-
+{% endfor %}
 {% endblock %}
-
-{% block footer %}
-{% endblock %}
+-->

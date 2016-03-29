@@ -1,26 +1,75 @@
 {% extends 'TyBeeWeb/base.html' %}
 {% load staticfiles %}
 
-{% block navbar %}
-{% endblock %}
+{% block navList %}
+<li>
+  <a class="page-scroll" href="#page-top">Le projet</a>
+</li>
+<li>
+  <a class="page-scroll" href="#hives">Les ruches</a>
+</li>
+<li>
+  <a class="page-scroll" href="#contact">Contact</a>
+</li>
+{% endblock %}	    
 
 {% block main %}
-<p>
-  Ceci est le site de TyBee !<br/>
-  Sur cette interface web vous pouvez monitorer les différents capteurs présents dans la ruche connectée de Télécom Bretagne.<br/>
+<section id="intro" class="intro-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1>TyBee</h1>
+	<p>
+	  Ceci est le site de TyBee !<br/>
+	  Sur cette interface web vous pouvez monitorer les différents capteurs présents dans la ruche connectée de Télécom Bretagne.<br/>
+	  
+	  Projet réalisé par :<br/>
+	  <ul>
+	    <li>Loïc Carr</li>
+	    <li>Thomas Delaby</li>
+	    <li>Ladislas Ducerf</li>
+	    <li>Xavier Duquesne</li>    
+	    <li>Jihad Hamzi</li>
+	    <li>Juliette Homassel</li>
+	    <li>Théo Jacquin</li>
+	    <li>Agathe Villien</li>
+	  </ul>
+	</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-  Projet réalisé par :<br/>
-  <ul>
-    <li>Loïc Carr</li>
-    <li>Thomas Delaby</li>
-    <li>Ladislas Ducerf</li>
-    <li>Xavier Duquesne</li>    
-    <li>Jihad Hamzi</li>
-    <li>Juliette Homassel</li>
-    <li>Théo Jacquin</li>
-    <li>Agathe Villien</li>
-  </ul>
-</p>
+<section id="hives" class="about-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1>Nos ruches connectées</h1>
+	<p>Établis sur le campus brestois de Télécom Bretagne, nous disposons d'un ancien terrain de tenis sur lequel nous avons aménagé un espace pour 2 ruches connectées.<br/>
+	  Techniquement, ces deux ruches sont installées et entretenues par un apiculteur professionnel, qui peut, depuis chez lui, monitorer divers paramètres de la ruche.<br/><br/>
+	  <a href="{% url 'monitoring:seeHives' %}" class="btn btn-warning">Découvrir nos ruches</a>
+	  </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="about-section">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-12">
+	<h1>Nous contacter</h1>
+	<p>Notre projet vous intéresse ?<br/>
+	  Vous voudriez nous faire part de commentaires, remarques, suggestions ?<br/>
+	  Vous voulez nous faire plein de bisous baveux ?<br/><br/>
+
+	  Alors n'hésitez pas à nous envoyer un mail à <a href="mailto://tybee@resel.fr">tybee@resel.fr</a> !
+      </div>
+    </div>
+  </div>
+</section>
+
+
 {% endblock %}
 
 {% block footer %}

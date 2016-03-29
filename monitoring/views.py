@@ -35,35 +35,51 @@ def putDatas(request):
 
 def seeHives(request):
     hives = Hive.objects.all()
-    context = {'hives': hives}
+    formattedHives = [
+        {
+            'id': hive.id,
+            'name': hive.name,
+            'photo': hive.photo,
+            'shortDescription': hive.shortDescription,
+            'description': hive.description,
+            'graphs': [ captor.formatDatas(2,2) for captor in hive.captor_set.all()]
+        }
+        for hive in hives
+    ]
+    context = {'hives': formattedHives}
     return render(request, 'monitoring/seeHives.html', context)
 
     
 def seeHive(request, idHive = 1):
     try:
         hive = Hive.objects.get(id = int(idHive))
-        captors = hive.captor_set.all()
     except Hive.DoesNotExist:
         # todo : raise a better 404
         return HttpResponse(status = 404)
     
     # For each captors :
-    charts = []
-    for captor in captors:        
-        charts.append(captor.formatDatas(2, 24))
-                
-    context = {'hive': hive, 'captors': captors, 'charts': charts}
+    formattedHive = {
+        'id': hive.id,
+        'name': hive.name,
+        'photo': hive.photo,
+        'shortDescription': hive.shortDescription,
+        'description': hive.description,
+        'graphs': [ captor.formatDatas(2,24) for captor in hive.captor_set.all()]
+    }
+
+    context = {'hive': formattedHive}
     return render(request, 'monitoring/seeHive.html', context)
 
 
 def seeCaptor(request, idHive = 1, idCaptor = 1):
     try:
         hive = Hive.objects.get(id = int(idHive))
+        captors = hive.captor_set.all()
         captor = hive.captor_set.get(id = int(idCaptor))        
     except Hive.DoesNotExist:
         # todo : raise a better 404
         return HttpResponse(status = 404)
 
     chart = captor.formatDatas(24, 24*10)
-    context = {'hive': hive, 'captors': captors, 'chart': chart}
+    context = {'hive': hive, 'captors': captors, 'graph': chart}
     return render(request, 'monitoring/seeCaptor.html', context)

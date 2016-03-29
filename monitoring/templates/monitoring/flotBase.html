@@ -1,0 +1,25 @@
+{% extends 'TyBeeWeb/base.html' %}
+{% load staticfiles %}
+
+{% block head %}
+<script src="{% static 'js/jquery-1.12.2.min.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.navigate.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.time.js' %}"></script>
+<script src="{% static 'js/flot/jquery.flot.resize.js' %}"></script>
+<script src="{% static 'js/plottingFun.js' %}"></script>
+{% endblock %}
+
+{% block main %}
+<div class="row">
+  <div class="col-md-2" style="height:100%;background-color: #F8F8F8;border-color: #333;border-width: 1px 1px 1px 1px;">
+    {% block menu_holder %}
+    {% endblock %}
+  </div>
+  
+  <div class="col-md-10 ">
+    {% block monitoring_holder %}
+    {% endblock %}
+  </div>
+</div>
+{% endblock %}
