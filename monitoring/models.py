@@ -37,20 +37,21 @@ class Captor(models.Model):
 
     def formatDatas(self, nbHoursFocus, nbHoursTotal):
         # We multiply timestamp by 1000 because unix's one count seconds whereas js' one count miliseconds.        
-        datas = [[data.timeStamp * 1000, data.value] for data in self.data_set.all()]
+        datas = [[data.timeStamp * 1000, data.value] for data in self.data_set.all()] or [[0, 0]]
         maxX = max([d[0] for d in datas])
         minX = min([d[0] for d in datas])
         maxY = max([d[1] for d in datas])
-        
-        initialMaxX = time.time()*1000
+
+        initialMaxX = time.time() * 1000
         initialMinX = initialMaxX - 1000*3600*nbHoursFocus
         minX = max(initialMaxX - 1000 * 3600 * nbHoursTotal, minX)
 
         # Determine the index to slice datas' values.
+        index = 0
         for index in range(len(datas) - 1, 0, -1):
             if datas[index][0] < minX:                
                 break
-        # TODO: if len(data)==1 it bugs: index might not be defined
+
         formattedDatas = [datas[index:]]
 
         zoomMinX = 5
