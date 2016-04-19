@@ -8,8 +8,11 @@ db.sqlite3
 __pycache__
 *.pyc
 
-# Ignore for emacs autosave file
+# EMACS
 
 *~
 [#]*[#]
 .\#*
+
+# Pycharm
+.idea
