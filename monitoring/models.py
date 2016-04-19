@@ -1,3 +1,4 @@
+# coding: utf-8
 from django.db import models
 
 import time
@@ -8,7 +9,7 @@ class Hive (models.Model):
     shortDescription = models.CharField(max_length=100)
     photo = models.ImageField(upload_to="img/hivePhotos", null=True)
     
-    def __str__ (self):
+    def __unicode__ (self):
         return self.name + " (" + str(self.id)+ ")"
 
     
@@ -62,7 +63,7 @@ class Captor (models.Model):
         return chart
 
     
-    def __str__ (self):
+    def __unicode__ (self):
         return self.name + " (" + str(self.id)+ ")"
 
     
@@ -71,6 +72,6 @@ class Data (models.Model):
     timeStamp = models.FloatField()
     value = models.FloatField()
         
-    def __str__ (self):
+    def __unicode__ (self):
         return str(self.value) 
     
