@@ -25,7 +25,7 @@ SECRET_KEY = '976pl^rb1%0_mm&g9gm)v=mpf80yza85it-wt+uny@mdv$u(x('
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -107,6 +107,10 @@ STATIC_ROOT = os.path.join(BASE_DIR, "sfiles")
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SESSION_COOKIE_SECURE = True
 
 # Media
 
