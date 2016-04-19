@@ -37,17 +37,3 @@ python manage.py runserver
 Puis naviguer sur 127.0.0.1:8000
 
 Pour le déploiement, je vous laisse faire tout seul comme des grands ;)
-
-
-# Contact
-
-Le projet est réalisé par :
-
- -  Loïc Carr
- -  Thomas Delaby
- -  Ladislas Ducerf
- -  Xavier Duquesne
- -  Jihad Hamzi
- -  Juliette Homassel
- -  Théo Jacquin
- -  Agathe Villien
