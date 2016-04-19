@@ -49,7 +49,7 @@ class Captor (models.Model):
         for index in range(len(datas)-1,0,-1):
             if datas[index][0] < minX:                
                 break
-
+        # TODO: if len(data)==1 it bugs: index might not be defined
         formattedDatas = [datas[index:]]
         
         zoomMinX = 5
