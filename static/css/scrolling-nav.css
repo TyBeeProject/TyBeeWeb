@@ -15,7 +15,7 @@ html {
 }
 
 @media(min-width:767px) {
-    .navbar {
+    .navbar-default {
         padding: 20px 0;
         -webkit-transition: background .5s ease-in-out,padding .5s ease-in-out;
         -moz-transition: background .5s ease-in-out,padding .5s ease-in-out;
@@ -24,6 +24,10 @@ html {
 
     .top-nav-collapse {
         padding: 0;
+    }
+
+    .navbar-second {
+        min-height: 0 !important;
     }
 }
 
@@ -46,16 +50,23 @@ of those sections to manage the look and feel of the site. */
     background: #eee;
 }
 
-.services-section {
+.bees-section {
     min-height: 100%;
     padding-top: 150px;
     text-align: center;
     background: #fff;
 }
 
+.project-section {
+    min-height: 100%;
+    padding-top: 80px;
+    text-align: center;
+    background: #eee;
+}
+
 .contact-section {
     min-height: 100%;
     padding-top: 150px;
     text-align: center;
-    background: #eee;
+    background: #fff;
 }
