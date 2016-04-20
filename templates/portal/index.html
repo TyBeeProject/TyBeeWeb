@@ -3,7 +3,7 @@
 
 {% block navList %}
 <li>
-  <a class="page-scroll" href="#page-top">Le projet</a>
+    <a class="page-scroll" href="#intro">Le projet</a>
 </li>
 <li>
   <a class="page-scroll" href="#hives">Les ruches</a>
@@ -16,26 +16,25 @@
 {% block main %}
 <section id="intro" class="intro-section">
   <div class="container">
-    <div class="row">
-      <div class="col-lg-12">
-	<h1>TyBee</h1>
-	<p>
-	  Ceci est le site de TyBee !<br/>
-	  Sur cette interface web vous pouvez monitorer les différents capteurs présents dans la ruche connectée de Télécom Bretagne.<br/>
-	  
-	  Projet réalisé par :<br/>
-	  <ul>
-	    <li>Loïc Carr</li>
-	    <li>Thomas Delaby</li>
-	    <li>Ladislas Ducerf</li>
-	    <li>Xavier Duquesne</li>    
-	    <li>Jihad Hamzi</li>
-	    <li>Juliette Homassel</li>
-	    <li>Théo Jacquin</li>
-	    <li>Agathe Villien</li>
-	  </ul>
-	</p>
+      <div class="row visible-xs visible-sm" style="margin-top: -100px;">
+          <img src="{% static 'img/logo.png' %}" alt="Logo Tybee" height="400">
       </div>
+      <div class="row">
+          <div class="col-md-4 hidden-xs hidden-sm">
+              <img src="{% static 'img/logo.png' %}" class="img-responsive" alt="Logo Tybee">
+          </div>
+          <div class="col-md-6 col-md-offset-1" style="margin-top: 70px">
+              <h1>Les ruches connectées</h1>
+              <h2>sur le campus de <a href="http://telecom-bretagne.eu">Télécom Bretagne</a> !</h2>
+              <h4>
+                  TyBee est un groupe d'étudiants de Télécom Bretagne dont l'objectif est d'installer des <b>ruches
+                  connectées</b> sur le campus de <a href="http://telecom-bretagne.eu">Télécom Bretagne</a><br/>
+              </h4>
+              <p>
+              </p>
+              <br/>
+              <a href="#hives" class="page-scroll btn btn-info btn-lg">En savoir plus</a>
+          </div>
     </div>
   </div>
 </section>
@@ -46,8 +45,10 @@
       <div class="col-lg-12">
 	<h1>Nos ruches connectées</h1>
 	<p>Établis sur le campus brestois de Télécom Bretagne, nous disposons d'un ancien terrain de tenis sur lequel nous avons aménagé un espace pour 2 ruches connectées.<br/>
-	  Techniquement, ces deux ruches sont installées et entretenues par un apiculteur professionnel, qui peut, depuis chez lui, monitorer divers paramètres de la ruche.<br/><br/>
-	  <a href="{% url 'monitoring:seeHives' %}" class="btn btn-warning">Découvrir nos ruches</a>
+        Techniquement, ces deux ruches sont installées et entretenues par un apiculteur professionnel, qui peut, depuis
+        chez lui, monitorer divers paramètres de la ruche.<br/><br/> <a href="{% url 'monitoring:seeHives' %}"
+                                                                        class="btn btn-warning btn-lg">Découvrir nos
+            ruches</a>
 	  </p>
       </div>
     </div>
